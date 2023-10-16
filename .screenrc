@@ -1,0 +1,48 @@
+## SETTINGS
+
+startup_message off
+
+autodetach on
+altscreen on
+shell $SHELL
+term screen-256color
+vbell on
+
+deflogin on
+defutf8 on
+defscrollback 1024
+
+# Enable non-blocking mode to better cope with flaky ssh connections.
+defnonblock 5
+
+## KEY BINDINGS
+
+# Remove some stupid / dangerous key bindings
+bind ^k
+bind ^\
+
+# Make them better
+bind \\ quit
+bind K kill
+bind I login on
+bind O login off
+bind } history
+
+bind ',' prev
+bind '.' next
+
+## STATUS LINE
+
+#hardstatus alwaysfirstline
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r} (%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c:%s %{g}]'
+
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r} (%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c:%s %{g}]'
+
+## SCREENS
+
+shelltitle shell
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##

@@ -1,0 +1,19 @@
+##
+# ~/.bashrc_local
+##
+
+# Default URI for libvirt
+export LIBVIRT_DEFAULT_URI='qemu:///system'
+
+# Add misc bin directories to PATH
+for _BASHRC_BINDIR in ~/.local/bin
+do
+  [[ -d $_BASHRC_BINDIR ]] || continue
+  [[ ${PATH/$_BASHRC_BINDIR/} == $PATH ]] && export PATH="$_BASHRC_BINDIR:$PATH"
+done
+
+unset _BASHRC_BINDIR
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##
