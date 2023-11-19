@@ -22,7 +22,7 @@ then
   if [[ -n $KEYCHAIN_KEYS ]]
   then
     echo -e "\nExecuting: keychain --eval $(echo -n $KEYCHAIN_KEYS)" >&2
-    eval "$(keychain --eval $KEYCHAIN_KEYS)"
+    eval "$(keychain --agents ssh,gpg --eval $KEYCHAIN_KEYS)"
   fi
 
 fi
