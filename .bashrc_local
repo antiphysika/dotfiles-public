@@ -1,19 +1,66 @@
+# Default URI for libvirt
 ##
 # ~/.bashrc_local
-##
 
-# Default URI for libvirt
+export FQDN="$(hostname -f)"
+export USER_FQDN="$USER@$FQDD"
+
 export LIBVIRT_DEFAULT_URI='qemu:///system'
 
-# Add misc bin directories to PATH
-for _BASHRC_BINDIR in ~/.local/bin
+_bashrc_local_dir="$HOME/.bashrc_local.d"
+if [[ -d $_bashrc_local_dir ]]
+then
+  :
+fi
+
+unset _bashrc_local_dir
+
+#alias randpw='gpg --gen-random --armour 2 24'
+
+for _bin_dir in /usr/lib/ccache
 do
-  [[ -d $_BASHRC_BINDIR ]] || continue
-  [[ ${PATH/$_BASHRC_BINDIR/} == $PATH ]] && export PATH="$_BASHRC_BINDIR:$PATH"
+  [[ -d $_bin_dir ]] && export PATH="$_bin_dir:$PATH"
 done
 
-unset _BASHRC_BINDIR
+# We need to check for packdev-0.3 *after* 0.2
+for _bin_dir in ~/packdev/prototype/{0.2,0.3}/bin
+do
+  [[ -d $_bin_dir ]] && export PATH="$_bin_dir:$PATH"
+done
 
-##
-# vim: ts=2 sw=2 et fdm=marker :
+for _bin_dir in ~/.local/bin
+do
+  [[ -d $_bin_dir ]] && export PATH="$_bin_dir:$PATH"
+done
+
+for _ssh_key in id_ecdsa_{main,retired} github/id_ecdsa_github_antiphysika
+do
+  [[ -f ~/.ssh/$_ssh_key ]] || continue
+  [[ -n $KEYCHAIN_KEYS ]] \
+    && export KEYCHAIN_KEYS="$KEYCHAIN_KEYS $_ssh_key" \
+    || export KEYCHAIN_KEYS="$_ssh_key"
+done
+
+# List of long-format GPG keys
+_gpg_keys=(
+  0x563B672C1966076DF09FDFEBB46AABBB14E22659
+  0xC3D05A058F1CA46222B5C268E4CDE4C19C08C545
+)
+
+for _gpg_key in "${_gpg_keys[@]}"
+do
+  [[ -n $KEYCHAIN_KEYS ]] \
+    && export KEYCHAIN_KEYS="$KEYCHAIN_KEYS $_gpg_key" \
+    || export KEYCHAIN_KEYS="$_gpg_key"
+done
+
+unset _bin_dir
+unset _ssh_key
+unset _gpg_keys
+unset _gpg_key
+
+# Stop pipenv(1) messing with PS1
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# vim: ts=2 sw=2 et fdm=marker
 ##
