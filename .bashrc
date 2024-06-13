@@ -71,8 +71,12 @@ then
   cd "$SCREEN_CHDIR"
   unset SCREEN_CHDIR
 else
-  # Change to $HOME directory on first invokation
-  [[ $_BASHRC_SOURCED -eq 1 ]] && cd "$HOME"
+  # Change to $HOME directory on first invokation, but only when we're
+  # not activating a pipenv
+  if [[ -z $PIPENV_ACTIVE ]]
+  then
+    [[ $_BASHRC_SOURCED -eq 1 ]] && cd "$HOME"
+  fi
 fi
 
 ##
