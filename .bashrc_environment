@@ -1,0 +1,47 @@
+##
+# ~/.bashrc_environment
+##
+
+## {{{ $HOSTNAME
+
+# The $HOSTNAME variable appears to be used by PS1 \H, which basically means
+# \h and \H are equivilant; i.e., \H will never return the fully-qualified
+# hostname.  This seems to be a bug (or feature) in Debian's bash package.
+# So fix up $HOSTNAME if necessary.
+if [[ ${HOSTNAME/./-} == ${HOSTNAME} ]]
+then
+  export HOSTNAME_ORIG="${HOSTNAME}"
+  export HOSTNAME="$(hostname -f 2>/dev/null)"
+  if [[ -z ${HOSTNAME} ]]
+  then
+    export HOSTNAME="${HOSTNAME_ORIG}"
+    unset HOSTNAME_ORIG
+  fi
+fi
+
+## }}}
+
+# Use vim as default editor
+export EDITOR=/usr/bin/vim
+
+# Path to current terminal
+export TTY="$(tty)"
+
+# Fix TERMCAP such that 256-color TERMs work when running under screen
+case "${TERM}" in
+  screen*)
+    export TERMCAP=$(echo $TERMCAP |sed -e 's/Co#8/Co#256/g')
+    ;;
+esac
+
+# Add ~/bin to PATH
+for _BASHRC_BINDIR in ~/bin
+do
+  [[ ${PATH/$_BASHRC_BINDIR/} == $PATH ]] && export PATH="$HOME/bin:$PATH"
+done
+
+unset _BASHRC_BINDIR
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##

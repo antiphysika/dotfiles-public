@@ -1,0 +1,9 @@
+[submodule ".vim/bundle/papercolor-theme"]
+	path = .vim/bundle/papercolor-theme
+	url = https://github.com/NLKNguyen/papercolor-theme
+[submodule ".vim/bundle/json5.vim"]
+	path = .vim/bundle/json5.vim
+	url = https://github.com/gutenye/json5.vim
+[submodule ".vim/bundle/awesome-vim-colorschemes"]
+	path = .vim/bundle/awesome-vim-colorschemes
+	url = https://github.com/rafi/awesome-vim-colorschemes

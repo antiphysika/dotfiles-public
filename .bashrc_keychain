@@ -1,0 +1,31 @@
+##
+# ~/.bashrc_keychain
+##
+
+if [[ -n $(type -P keychain) ]]
+then
+
+  if [[ -z $KEYCHAIN_KEYS ]]
+  then
+    for _BASHRC_SSH_KEY_PATH in ~/.ssh/id_rsa ~/.ssh/id_ecdsa
+    do
+      [[ -f $_BASHRC_SSH_KEY_PATH ]] || continue
+
+      _BASHRC_SSH_KEY_FILE="$(basename "$_BASHRC_SSH_KEY_PATH")"
+      KEYCHAIN_KEYS="$KEYCHAIN_KEYS $_BASHRC_SSH_KEY_FILE"
+    done
+
+    unset _BASHRC_SSH_KEY_FILE
+    unset _BASHRC_SSH_KEY_PATH
+  fi
+
+  if [[ -n $KEYCHAIN_KEYS ]]
+  then
+    eval "$(keychain --agents ssh,gpg --eval $KEYCHAIN_KEYS)"
+  fi
+
+fi
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##

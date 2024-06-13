@@ -1,0 +1,81 @@
+##
+# ~/.bashrc_prompt
+##
+
+# Normal and bold
+_BASHRC_CNORMAL='\[\033[0m\]'
+_BASHRC_CBOLD='\[\033[01;37m\]'
+
+# Red, green and light/dark greys
+_BASHRC_CRED='\[\033[0;31m\]'
+_BASHRC_CGREEN='\[\033[0;32m\]'
+_BASHRC_CLIGHTGREY='\[\033[0;37m\]'
+_BASHRC_CDARKGREY='\[\033[1;30m\]'
+
+## {{{ function _bashrc_colour()
+function _bashrc_colour()
+{
+  [[ $# -ge 2 ]] || return
+
+  local colour="$1"
+  shift
+
+  case "$colour" in
+    normal)
+      echo -en $_BASHRC_CNORMAL; echo -n "$@"
+      ;;
+    red)
+      echo -en $_BASHRC_CRED; echo -n "$@"; echo -en $_BASHRC_CNORMAL
+      ;;
+    green)
+      echo -en $_BASHRC_CGREEN; echo -n "$@"; echo -en $_BASHRC_CNORMAL
+      ;;
+    light-grey)
+      echo -en $_BASHRC_CLIGHTGREY; echo -n "$@"; echo -en $_BASHRC_CNORMAL
+      ;;
+    dark-grey)
+      echo -en $_BASHRC_CDARKGREY; echo -n "$@"; echo -en $_BASHRC_CNORMAL
+      ;;
+    *)
+      echo -n "$@"
+      ;;
+  esac
+}
+## }}}
+
+# Coloured super-user indicator
+_BASHRC_PS1_START="$(_bashrc_colour dark-grey '(')"
+[[ $EUID -eq 0 ]] && _BASHRC_PS1_START="$_BASHRC_PS1_START$(_bashrc_colour red '\$')"
+[[ $EUID -eq 0 ]] || _BASHRC_PS1_START="$_BASHRC_PS1_START$(_bashrc_colour green '\$')"
+_BASHRC_PS1_START="$_BASHRC_PS1_START$(_bashrc_colour dark-grey ')')"
+
+# Username/hostname indicator
+_BASHRC_PS1_USERHOST="$(_bashrc_colour light-grey '\u')"
+_BASHRC_PS1_USERHOST="$_BASHRC_PS1_USERHOST$(_bashrc_colour dark-grey '@')"
+_BASHRC_PS1_USERHOST="$_BASHRC_PS1_USERHOST$(_bashrc_colour light-grey "$HOSTNAME")"
+
+# Working directory
+_BASHRC_PS1_PWD="$(_bashrc_colour light-grey '\w')"
+
+# Prompt terminator
+_BASHRC_PS1_END="$(_bashrc_colour dark-grey '>')"
+_BASHRC_PS1_END="$_BASHRC_PS1_END$(_bashrc_colour light-grey '>')"
+_BASHRC_PS1_END="$_BASHRC_PS1_END$(_bashrc_colour dark-grey '>')"
+
+PS1="
+$_BASHRC_PS1_START $_BASHRC_PS1_USERHOST$(_bashrc_colour dark-grey ':')$_BASHRC_PS1_PWD
+$_BASHRC_PS1_END "
+
+unset _bashrc_colour
+
+case "$TERM" in
+  xterm*|rxvt*)
+    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+    ;;
+  *)
+    ;;
+esac
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##

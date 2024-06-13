@@ -1,0 +1,18 @@
+map <f1> :w<cr>
+map <f2> :bp<cr>
+map <f3> :bn<cr>
+map <f4> :!./%<cr>
+map <f5> :!python -m py_compile %<cr>
+map <f6> :!perl -c %<cr>
+map <f7> :!make check<cr>
+
+" Setting t_Co below may not be needed
+"set t_Co=256 for the PaperColor theme to work
+
+" PaperColor colour scheme (LIGHT)
+set background=light
+colorscheme PaperColor
+
+" PaperColor colour scheme (DARK)
+"set background=dark
+"colorscheme PaperColor

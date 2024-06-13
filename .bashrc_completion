@@ -1,0 +1,18 @@
+##
+# ~/.bashrc_completion
+##
+
+for _BASHRC_BASH_COMP_PATH in /usr/share/bash-completion/bash_completion /etc/bash_completion
+do
+  if [[ -f $_BASHRC_BASH_COMP_PATH ]]
+  then
+    source $_BASHRC_BASH_COMP_PATH
+    break
+  fi
+done
+
+unset _BASHRC_BASH_COMP_PATH
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##

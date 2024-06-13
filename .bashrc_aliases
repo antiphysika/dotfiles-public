@@ -1,0 +1,75 @@
+##
+# ~/.bashrc_aliases
+##
+
+SUDO=$(type -P sudo)
+[[ $EUID -eq 0 ]] && SUDO=
+
+alias rb="$SUDO shutdown -r now"
+alias sd="$SUDO shutdown -h now"
+
+alias dpkg="$SUDO dpkg"
+alias apt="$SUDO apt"
+alias apt-get="$SUDO apt-get"
+
+alias au='apt-get update'
+alias ai='apt-get install'
+alias ap='apt-get purge'
+
+alias adu='apt-get dist-upgrade'
+alias asu='apt-get safe-upgrade'
+
+alias acl='apt-get clean'
+alias aar='apt-get autoremove --purge'
+
+if [[ -n $(type -P apt) ]]
+then
+  alias alu="$SUDO apt list --upgradable"
+else
+  alias alu="$SUDO apt-get -u upgrade --assume-no"
+fi
+
+# Array of options used to build ls alias below
+_BASHRC_LS_OPTIONS=('--group-directories-first')
+
+if [[ -n $(type -P dircolors) ]]
+then
+  [[ -r ~/.dircolors ]] \
+    && eval "$(dircolors -b ~/.dircolors)" \
+    || eval "$(dircolors -b)"
+
+  _BASHRC_LS_OPTIONS+=('--color=auto')
+
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+alias cp='cp --reflink=auto'
+
+alias ls="ls ${_BASHRC_LS_OPTIONS[@]}"
+
+unset _BASHRC_LS_OPTIONS
+
+alias l='ls -lih'
+alias la='ls -a'
+alias lla='l -a'
+alias lz='l -Z'
+alias d='l -d'
+
+alias df='df -h -BM -xtmpfs -xdevtmpfs'
+
+if [[ -n $(type -P git) ]]
+then
+  #alias ginit='git init && git ci --allow-empty -m Initial\ commit'
+  alias gimport='git a . && git ci -m Initial\ import'
+fi
+
+unset SUDO
+
+alias gr='git restore'
+alias grs='gr --staged'
+
+##
+# vim: ts=2 sw=2 et fdm=marker :
+##
