@@ -6,7 +6,7 @@ DOTFILES =            \
   .bashrc             \
   .bashrc_aliases     \
   .bashrc_completion  \
-  .bashrc_environment \
+  .bashrc_environ     \
   .bashrc_functions   \
   .bashrc_history     \
   .bashrc_keychain    \
